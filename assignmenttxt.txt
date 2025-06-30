@@ -1,0 +1,36 @@
+Project Description:
+Create a desktop application that assists people playing Baseball highlights 2045 by automating gameplay and tracking statistics.
+
+Quality attributes:
+Reliability: How often the software functions can fail.
+I chose this heuristic because the user is expecting the programs output to be accurate in each use. Failures compound over the course of play and cause the game state to quickly deviate from what it actually should be.
+
+Integrity: How often data is lost
+I chose this because the program needs to track considerable data for a user and the user is expecting this data to be accessible at any given time. Data loss can result in lost seasons and invalid game states.
+
+Flexibility: Number of ways software can be used
+I chose this because the software might be used differently between different users. Some may only use it to help record scores in one off games, others might use it to track multiple seasons, while others may want to modify it with custome rules
+
+Sprint plan:
+User stories:
+User Story 1
+User Story 7
+User Story 2
+
+story 1 Function requirements:
+Given a player is in the middle of a season when they want to stop playing then the program will gather the current roster of the team and save the composition
+Reliability: The program alerts the user >99% of the time if a save fails and does not navigate from page
+Integrity: The program will maintain a backup of the 4 most recent updates to a roster.
+Flexibility: The program can be used in 3 ways: recording player team compositions, free agent pools, and AI team compositions
+
+story 7 Function requirements:
+Given 2 players would like to record their scores when playing a multi-game series then the program will have data fields to record each inning and display the current standings.
+Reliability: The program has an accuracy >99%
+Integrity: The program records user data with a fidelity >90%
+Flexibility: The program can be deployed for 2 different uses, single player and multiplayer
+
+story 2 Function reqs:
+Given a single-player when playing a long form season then the program will allow for tracking each individual series and records the performance of each game and the entire season to date, while notifying the player on their current league standings.
+Reliability: The program can pull information with an accuracy of >99%
+Integrity: The program maintains 5 back ups of the current season and maintains data integrity of >90%
+Flexibility: The component can be used in 2 use cases, single player and multiplayer
