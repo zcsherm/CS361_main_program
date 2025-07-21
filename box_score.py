@@ -32,7 +32,7 @@ class Inning:
 
 class FullGame:
     def __init__(self):
-        self._innings = [Inning() for i in range(5)]
+        self._innings = [Inning() for i in range(6)]
 
     def add_inning(self):
         self._innings.append(Inning())
