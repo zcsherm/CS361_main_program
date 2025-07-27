@@ -1,5 +1,5 @@
 class PlayerCard:
-    def __init__(data, import=None):
+    def __init__(self, data):
         self._cost = data.cost
         self._revenue = data.revenue
         self._team = data.team

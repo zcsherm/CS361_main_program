@@ -50,7 +50,7 @@ class Player:
         return self._seasons[season]
 
     def get_current_team(self):
-        return self._current_season
+        return self._current_team
 
     def get_name(self):
         return self._name
