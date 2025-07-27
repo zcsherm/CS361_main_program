@@ -28,18 +28,24 @@ class HomeScreen(tk.Toplevel):
             wins, losses, games = self._master.user.get_win_loss()
             label = tk.Label(frame1,text=f"Your current standing is {wins}-{losses} of {games} games")
             label.pack(fill='both',padx=10,pady=5,expand=True)
-        self._add_season_button = tk.Button(frame2, text="Add Season", command=self.add_season)
+        self._add_season_button = tk.Button(frame2, text="Add Season", command=self.add_season,underline=0)
         self._add_season_button.pack(side='left', padx=10, pady=40)
         self.setup_team_frame(frame3)
-        self._select_season_button = tk.Button(frame4, text="Select Season", command=self.select_season)
+        self._select_season_button = tk.Button(frame4, text="Select Season", command=self.select_season,underline=0)
         self._select_season_button.pack(side='left', padx=10, pady=40)
-        self._update_team_button = tk.Button(frame5, text="Update Team", command=self.update_team)
+        self._update_team_button = tk.Button(frame5, text="Update Team", command=self.update_team,underline=0)
         self._update_team_button.pack(side='left', padx=10,pady=40)
         self._add_season_button.pack(side='left', padx=10, pady=40)
-        self._add_season_button = tk.Button(frame6, text="Play Game!", command=self.play_game)
+        self._add_season_button = tk.Button(frame6, text="Play Game!", command=self.play_game,underline=0)
         self._add_season_button.pack(side='bottom', padx=10, pady=40)
-        self._help_button = tk.Button(frame7, text="Help", command=self.help)
+        self._help_button = tk.Button(frame7, text="Help", command=self.help, underline=0)
         self._help_button.pack(side='left', padx=10, pady=40)
+        self.bind('<Alt-a>', self.add_season)
+        self.bind('<Alt-s>', self.select_season)
+        self.bind('<Alt-u>', self.update_team)
+        self.bind('<Alt-p>', self.play_game)
+        self.bind('<Alt-h>', self.help)
+
 
     def setup_team_frame(self,frame):
         team = self._master.user.get_current_team()
@@ -54,20 +60,20 @@ class HomeScreen(tk.Toplevel):
         label = tk.Label(frame, text =txt,justify='left')
         label.grid(row=0,column=0)
 
-    def add_season(self):
+    def add_season(self,event=None):
         self._master.launch_new_season(self)
         pass
 
-    def select_season(self):
+    def select_season(self,event=None):
         self._master.launch_select_season(self)
 
-    def update_team(self):
+    def update_team(self,event=None):
         self._master.launch_team(self)
 
-    def play_game(self):
+    def play_game(self,event=None):
         self._master.launch_play_game(self)
 
-    def help(self):
+    def help(self,event=None):
         Help(self)
 
 class Help(tk.Toplevel):
@@ -90,8 +96,9 @@ class Help(tk.Toplevel):
         label.pack(fill='both',padx=10,pady=5,expand=True)
         label = tk.Label(frame3, text=HOME_HELP_DESCRIPTION,justify='left')
         label.pack(padx=10,pady=5,side='left')
-        button=tk.Button(frame4,text=HOME_HELP_RETURN_BUTTON,command=self.go_back)
+        button=tk.Button(frame4,text=HOME_HELP_RETURN_BUTTON,command=self.go_back,underline=0)
         button.pack(padx=10,pady=5,anchor='s')
+        self.bind('<Alt-r>', self.go_back)
 
-    def go_back(self):
+    def go_back(self,event=None):
         self.destroy()

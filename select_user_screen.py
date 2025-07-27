@@ -25,11 +25,12 @@ class SelectUser(tk.Toplevel):
 
         label = tk.Label(frame1, text="Please Choose a User:")
         label.pack()
-        self._cancel_button = tk.Button(frame4, text="Cancel", command=self.go_to_main)
+        self._cancel_button = tk.Button(frame4, text="Cancel", command=self.go_to_main, underline=0)
         self._cancel_button.pack(side='left', padx=10, pady=40)
-        self._submit_button = tk.Button(frame3, text="Submit", command=self.load_user)
+        self._submit_button = tk.Button(frame3, text="Submit", command=self.load_user, underline=0)
         self._submit_button.pack(side='right', padx=10, pady=40)
-
+        self.bind('<Alt-s>', self.load_user)
+        self.bind('<Alt-c>', self.go_to_main)
         self._selected_user = tk.StringVar()
         self._selected_user.set("None")
         for i in range(len(directories)):
@@ -38,9 +39,9 @@ class SelectUser(tk.Toplevel):
             radio.pack()
 
 
-    def go_to_main(self):
+    def go_to_main(self,event=None):
         self._master.launch_login(self)
 
-    def load_user(self):
+    def load_user(self, event=None):
         self._master.get_user(self._selected_user.get()[0:-4])
         self._master.launch_home(self)

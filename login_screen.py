@@ -15,7 +15,6 @@ class LoginScreen(tk.Toplevel):
         self._window= self
         self.title("welcome")
         self._master = master
-
         txt1 = "Welcome to the tracker for Baseball Highlights: 2045!"
         label = tk.Label(self._window, text=txt1)
         label.pack(side='top',  fill='both',  padx=10,  pady=5,  expand=True)
@@ -23,16 +22,21 @@ class LoginScreen(tk.Toplevel):
         label.pack(side='top',  fill='both',  padx=10,  pady=5,  expand=True)
         frame1 = tk.LabelFrame(self)
         frame1.pack(side='top',padx=10,pady=5)
-        self._select_user_button = tk.Button(frame1, text="Select User", command=self.select_user,width=20)
+        self._select_user_button = tk.Button(frame1, text="Select User", command=self.select_user,width=20, underline=0)
         self._select_user_button.pack(side='top', padx=10,  pady=20)
-        self._new_user_button = tk.Button(frame1, text="New User", command=self.new_user,width=20)
+        self._new_user_button = tk.Button(frame1, text="New User", command=self.new_user,width=20, underline = 0)
         self._new_user_button.pack(side='top',  padx=10,  pady=20)
-        self._quickplay_button = tk.Button(frame1, text="Quick Play", command=self.quickplay,width=20)
+        self._quickplay_button = tk.Button(frame1, text="Quick Play", command=self.quickplay,width=20, underline =0)
         self._quickplay_button.pack(side='top',  padx=10,  pady=20)
-        self._help_button = tk.Button(self, text="Help", command=self.help)
+        self._help_button = tk.Button(self, text="Help", command=self.help,underline=0)
         self._help_button.pack(side='right',  fill='both',  padx=10,  pady=20,  expand=False)
+        self.bind('<Alt-h>',self.help)
+        self.bind('<Alt-n>', self.new_user)
+        self.bind('<Alt-s>', self.select_user)
+        self.bind('<Alt-q>', self.quickplay)
+        #self._quickplay_button.bind('<Alt-key-q>',self.help)
 
-    def select_user(self):
+    def select_user(self, event = None):
         print(os.listdir(os.getcwd()+"/users"))
         if len(os.listdir(os.getcwd()+"/users")) < 1:
             response = messagebox.askyesno("Unable to find user", "No users were found!\nWould you like to create a new user?")
@@ -43,14 +47,14 @@ class LoginScreen(tk.Toplevel):
                 return
         self._master.launch_choose_user(self)
 
-    def new_user(self):
+    def new_user(self, event = None):
         self._master.launch_user_screen(source=self._window)
         #launch_user_screen(self._window)
 
-    def quickplay(self):
+    def quickplay(self, event= None):
         self._master.launch_play_game(source=self, quick_play=True)
 
-    def help(self):
+    def help(self, event=None):
         Help(self)
 
 class Help(tk.Toplevel):

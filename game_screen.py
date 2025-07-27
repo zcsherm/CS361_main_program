@@ -85,12 +85,14 @@ class GameScreen(tk.Toplevel):
         self._away_score.grid(row=1,column=0)
         self._home_score = tk.Label(frame5, text="0", font=("Arial", 36), foreground='red')
         self._home_score.grid(row=1, column=2)
-        self._finish_game_button = tk.Button(frame5, text="Finish Game",command=self.finish)
+        self._finish_game_button = tk.Button(frame5, text="Finish Game",command=self.finish,underline=0)
         self._finish_game_button.grid(row=2,column=1)
+        self.bind('<Alt-f>', self.finish)
 
     # Return
-        self._return_button = tk.Button(frame6,text='Return',command=self.go_to_main)
+        self._return_button = tk.Button(frame6,text='Return',command=self.go_to_main, underline=0)
         self._return_button.pack(side='right',padx=10,pady=10,anchor='e')
+        self.bind('<Alt-r>', self.go_to_main)
 
 
     def default_spin_boxes(self):
@@ -109,10 +111,10 @@ class GameScreen(tk.Toplevel):
         self._home_score.configure(text=home_tot)
         self._away_score.configure(text=away_tot)
 
-    def finish(self):
+    def finish(self, event=None):
         DisplayScore(self,self._current_score[0],self._current_score[1])
 
-    def go_to_main(self):
+    def go_to_main(self, event=None):
         respone = messagebox.askyesno("Return?", "Returning will lose all progress in the current game. \nAre you sure?")
         if respone:
             if self.quickplay:
@@ -163,15 +165,18 @@ class DisplayScore(tk.Toplevel):
         label = tk.Label(frame3, text=text)
         label.pack(fill='both')
         if not self._master.quickplay and not (self.winner is None):
-            save = tk.Button(frame4,text="Save Game",command=self.save_game)
+            save = tk.Button(frame4,text="Save Game",command=self.save_game, underline=0)
             save.pack()
+            self.bind('<Alt-s>', self.save_game)
 
-        ret = tk.Button(frame5,text="Return",command=self.go_back)
+        ret = tk.Button(frame5,text="Return",command=self.go_back,underline=0)
         ret.grid(row=0,column=1)
-        home = tk.Button(frame5, text="Home", comman=self.go_home)
+        home = tk.Button(frame5, text="Home", comman=self.go_home, underline=0)
         home.grid(row=0,column=2)
+        self.bind('<Alt-r>', self.go_back)
+        self.bind('<Alt-h>', self.go_home)
 
-    def save_game(self):
+    def save_game(self, event=None):
         response = messagebox.askyesno("Are you sure?",f"The current season is {self._master._master.user.get_current_season()}, would you like to save the game to this season's standings?")
         if self.winner==self._master.player:
             outcome = 'w'
@@ -179,12 +184,13 @@ class DisplayScore(tk.Toplevel):
             outcome = 'l'
         if response:
             self._master._master.user.add_game_to_season(outcome)
+            self._master._master.save_user()
             self.go_home()
 
-    def go_back(self):
+    def go_back(self, event=None):
         self.destroy()
 
-    def go_home(self):
+    def go_home(self,event=None):
         if self._master.quickplay:
             self.destroy()
             self._master._master.launch_login(self._master)

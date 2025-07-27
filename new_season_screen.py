@@ -53,12 +53,14 @@ class AddSeasonScreen(tk.Toplevel):
         label.pack()
         label = tk.Label(frame9, text = "\n\n\n\n\n")
         label.pack()
-        self._return_button = tk.Button(frame8, text="Cancel", command=self.go_to_home)
+        self._return_button = tk.Button(frame8, text="Cancel", command=self.go_to_home,underline=0)
         self._return_button.pack(side='bottom', padx=10, pady=10)
-        self._add_season_button = tk.Button(frame8, text="Add", command=self.add_season)
+        self._add_season_button = tk.Button(frame8, text="Add", command=self.add_season,underline=0)
         self._add_season_button.pack(side='bottom', padx=10, pady=10)
+        self.bind('<Alt-c>', self.go_to_home)
+        self.bind('<Alt-a>', self.add_season)
 
-    def add_season(self):
+    def add_season(self,event=None):
         print(self._games_var.get())
         print(self._team_var.get())
         print(self._year_var.get())
@@ -70,5 +72,5 @@ class AddSeasonScreen(tk.Toplevel):
         self.go_to_home()
         pass
 
-    def go_to_home(self):
+    def go_to_home(self,event=None):
         self._master.launch_home(self)

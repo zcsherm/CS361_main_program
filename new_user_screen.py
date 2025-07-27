@@ -37,12 +37,13 @@ class AddUserScreen(tk.Toplevel):
         self._name_var = tk.StringVar()
         self._entry = tk.Entry(frame3,width = 20,textvariable=self._name_var)
         self._entry.pack(side='top',padx=10,pady=5)
-        self._add_user_button = tk.Button(frame5, text="Add", command=self.add_user)
+        self._add_user_button = tk.Button(frame5, text="Add", command=self.add_user, underline =0)
         self._add_user_button.pack(side='top',  fill='both',  padx=10,  pady=10,  expand=True)
-        self._return_button = tk.Button(frame5, text="Return", command=self.go_to_main)
+        self._return_button = tk.Button(frame5, text="Return", command=self.go_to_main, underline=0)
         self._return_button.pack(side='top',  fill='both',  padx=10,  pady=10,  expand=True)
-
-    def add_user(self):
+        self.bind('<Alt-r>', self.go_to_main)
+        self.bind('<Alt-a>', self.add_user)
+    def add_user(self, event=None):
         #response = messagebox.askyesno("Add season", "Would you like to create a starting season?")
         self.response = Pmw.MessageDialog(self._master.root,
                                         title="Create Season?",
@@ -52,7 +53,7 @@ class AddUserScreen(tk.Toplevel):
         hover = Pmw.Balloon(self._master.root)
         hover.bind(self.response.interior(), 'A season lets you record progress over a large series of games')
 
-    def go_to_main(self):
+    def go_to_main(self,event=None):
         response = messagebox.askyesno("Return to main menu?", "This will return you to the home screen, any unsaved changes will be lost. Are you sure?")
         if response:
             self._master.launch_login(self)

@@ -32,13 +32,15 @@ class TeamScreen(tk.Toplevel):
     def setup_elements(self,frame):
         label = tk.Label(frame, text="Type in the names of any replacement players you've added to your roster", wraplength=100)
         label.pack()
-        self._update_button = tk.Button(frame, text="Update", command=self.update_season)
-        self._cancel_button = tk.Button(frame, text="Cancel", command=self.cancel_update)
+        self._update_button = tk.Button(frame, text="Update", command=self.update_season,underline=0)
+        self._cancel_button = tk.Button(frame, text="Cancel", command=self.cancel_update,underline=0)
         self._update_button.pack()
         self._cancel_button.pack()
+        self.bind('<Alt-u>', self.update_season)
+        self.bind('<Alt-c>', self.cancel_update)
 
 
-    def update_season(self):
+    def update_season(self, event=None):
         counter=0
         changes_text = ""
         new_team = []
@@ -66,7 +68,7 @@ class TeamScreen(tk.Toplevel):
             messagebox.showerror("No changes made!", "No changes were made to the roster!")
         pass
 
-    def cancel_update(self):
+    def cancel_update(self, event=None):
         response = messagebox.askyesno("Return?","Unsaved changes to your roster will be lost.\nAre you sure you want to cancel?")
         if response:
             self._master.launch_home(self)

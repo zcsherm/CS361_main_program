@@ -23,11 +23,12 @@ class SelectSeason(tk.Toplevel):
 
         label = tk.Label(frame1, text=f"Please Choose a season:\n(the current season is {self._master.user.get_current_season()} ")
         label.pack()
-        self._cancel_button = tk.Button(frame4, text="Cancel", command=self.go_to_home)
+        self._cancel_button = tk.Button(frame4, text="Cancel", command=self.go_to_home,underline=0)
         self._cancel_button.pack(side='left', padx=10, pady=10)
-        self._submit_button = tk.Button(frame3, text="Submit", command=self.change_season)
+        self._submit_button = tk.Button(frame3, text="Submit", command=self.change_season,underline=0)
         self._submit_button.pack(side='right', padx=10, pady=10)
-
+        self.bind('<Alt-c>', self.go_to_home)
+        self.bind('<Alt-s>', self.change_season)
         self._selected_season = tk.StringVar()
         self._selected_season.set("None")
         for i in range(len(seasons)):
@@ -36,10 +37,10 @@ class SelectSeason(tk.Toplevel):
             radio.pack()
 
 
-    def go_to_home(self):
+    def go_to_home(self,event=None):
         self._master.launch_home(self)
 
-    def change_season(self):
+    def change_season(self, event=None):
         response = messagebox.askyesno("Continue?","Changing the season will cause future games and team adjustments to be recorded in the selected season.\nAre you sure you wish to proceed?")
         if response:
             self._master.change_season(self._selected_season.get())
