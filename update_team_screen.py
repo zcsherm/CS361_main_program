@@ -6,7 +6,7 @@ class TeamScreen(tk.Toplevel):
         self._team = team
         self._master = master
         self._window = self
-        self._title = "Update Roster"
+        self.title("Update Roster")
         self._text_vars = [tk.StringVar() for i in range(15)]
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=5)

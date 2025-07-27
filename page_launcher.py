@@ -19,6 +19,12 @@ class Launcher():
         self.root.withdraw()
         self._window = login_screen.LoginScreen(master=self)
         self._current = self._window
+        self.path=os.getcwd()
+        os.listdir(self.path)
+        if 'users' in os.listdir(self.path):
+            pass
+        else:
+            os.mkdir(self.path+'/'+'users')
         self.user = None
 
     def launch_login(self,source=None, data=None):

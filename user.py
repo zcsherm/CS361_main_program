@@ -43,3 +43,15 @@ class User:
 
     def add_game_to_season(self,outcome):
         self._seasons[self._current_season]['games'].append(outcome)
+
+    def get_win_loss(self):
+        season = self._seasons[self._current_season]['games']
+        wins= 0
+        losses = 0
+        games = self._seasons[self._current_season]['num_of_games']
+        for i in range(len(season)):
+            if season[i] == 'w':
+                wins+=1
+            elif season[i]=='l':
+                losses += 1
+        return (wins,losses,games)

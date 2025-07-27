@@ -7,7 +7,7 @@ class SelectSeason(tk.Toplevel):
         super().__init__()
         self._master = master
         self._window = self
-        self._title = "Choose a Season"
+        self.title("Choose a Season")
         seasons = self._master.user.get_seasons()
 
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
@@ -24,9 +24,9 @@ class SelectSeason(tk.Toplevel):
         label = tk.Label(frame1, text=f"Please Choose a season:\n(the current season is {self._master.user.get_current_season()} ")
         label.pack()
         self._cancel_button = tk.Button(frame4, text="Cancel", command=self.go_to_home)
-        self._cancel_button.pack(side='left', padx=10, pady=40)
+        self._cancel_button.pack(side='left', padx=10, pady=10)
         self._submit_button = tk.Button(frame3, text="Submit", command=self.change_season)
-        self._submit_button.pack(side='right', padx=10, pady=40)
+        self._submit_button.pack(side='right', padx=10, pady=10)
 
         self._selected_season = tk.StringVar()
         self._selected_season.set("None")

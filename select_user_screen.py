@@ -6,7 +6,7 @@ class SelectUser(tk.Toplevel):
         super().__init__()
         self._master = master
         self._window = self
-        self._title = "Choose a User"
+        self.title("Choose a User")
         directories =[]
         path = os.getcwd()+'/users'
         for dir in os.listdir(path):

@@ -13,8 +13,8 @@ class AddUserScreen(tk.Toplevel):
         #self._window.config(width=600, height=600)
         #self._window.title("New User")
         super().__init__()
-        self.title("New User")
         self._window = self
+        self.title("New User")
         self._master=master
         Pmw.initialise(self._master.root)
         frame1 = tk.LabelFrame(self._window,borderwidth=0) # For the title
@@ -35,12 +35,12 @@ class AddUserScreen(tk.Toplevel):
         label = tk.Label(frame2, text='Name:')
         label.pack(anchor='n',padx=10,pady=5,expand=False, fill='none')
         self._name_var = tk.StringVar()
-        self._entry = tk.Entry(frame3, width = 20,textvariable=self._name_var)
+        self._entry = tk.Entry(frame3,width = 20,textvariable=self._name_var)
         self._entry.pack(side='top',padx=10,pady=5)
         self._add_user_button = tk.Button(frame5, text="Add", command=self.add_user)
-        self._add_user_button.pack(side='top',  fill='both',  padx=10,  pady=40,  expand=True)
+        self._add_user_button.pack(side='top',  fill='both',  padx=10,  pady=10,  expand=True)
         self._return_button = tk.Button(frame5, text="Return", command=self.go_to_main)
-        self._return_button.pack(side='top',  fill='both',  padx=10,  pady=40,  expand=True)
+        self._return_button.pack(side='top',  fill='both',  padx=10,  pady=10,  expand=True)
 
     def add_user(self):
         #response = messagebox.askyesno("Add season", "Would you like to create a starting season?")

@@ -8,7 +8,7 @@ class GameScreen(tk.Toplevel):
         self.quickplay=quickplay
         self._master = master
         self._window = self
-        self._title = "Play Ball"
+        self.title("Play Ball")
         self._text_vars = [tk.StringVar() for i in range(15)]
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=4)
@@ -21,7 +21,7 @@ class GameScreen(tk.Toplevel):
         frame5 = tk.LabelFrame(self._window, borderwidth=0)  # For the score and finish button
         frame5.grid(row=3, column=2, columnspan=2)
         frame6 = tk.LabelFrame(self._window, borderwidth=0)  # For the return button
-        frame6.grid(row=4, column=3, columnspan=1)
+        frame6.grid(row=4, column=3, columnspan=1,stick='se')
 
         label = tk.Label(frame1,text="Play Ball!")
         label.pack(fill='both',pady=20, anchor='center')
@@ -90,7 +90,7 @@ class GameScreen(tk.Toplevel):
 
     # Return
         self._return_button = tk.Button(frame6,text='Return',command=self.go_to_main)
-        self._return_button.pack(side='right',padx=10,pady=10)
+        self._return_button.pack(side='right',padx=10,pady=10,anchor='e')
 
 
     def default_spin_boxes(self):
