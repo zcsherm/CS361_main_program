@@ -7,6 +7,7 @@ class HomeScreen(tk.Toplevel):
         self._window = self
         self.title("Home")
         self._master=master
+        self.focus_set()
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=4)
         frame2 = tk.LabelFrame(self._window, borderwidth=0)  # For add season button
@@ -82,6 +83,7 @@ class Help(tk.Toplevel):
         self.title(HOME_HELP_TITLE)
         self._window = self
         self._master=master
+        self.focus_set()
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=2)
         frame2 = tk.LabelFrame(self._window, borderwidth=0)  # subtitle

@@ -15,6 +15,7 @@ class LoginScreen(tk.Toplevel):
         self._window= self
         self.title("welcome")
         self._master = master
+        self.focus_set()
         txt1 = "Welcome to the tracker for Baseball Highlights: 2045!"
         label = tk.Label(self._window, text=txt1)
         label.pack(side='top',  fill='both',  padx=10,  pady=5,  expand=True)
@@ -63,6 +64,7 @@ class Help(tk.Toplevel):
         self.title(LOGIN_HELP_TITLE)
         self._window = self
         self._master=master
+        self.focus_set()
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=2)
         frame2 = tk.LabelFrame(self._window, borderwidth=0)  # subtitle
@@ -77,8 +79,9 @@ class Help(tk.Toplevel):
         label.pack(fill='both',padx=10,pady=5,expand=True)
         label = tk.Label(frame3, text=LOGIN_HELP_DESCRIPTION,justify='left',wraplength=200)
         label.pack(padx=10,pady=5,side='left')
-        button=tk.Button(frame4,text=LOGIN_HELP_RETURN_BUTTON,command=self.go_back)
+        button=tk.Button(frame4,text=LOGIN_HELP_RETURN_BUTTON,command=self.go_back, underline=0)
         button.pack(padx=10,pady=5,anchor='s')
+        self.bind('<Alt-r>',self.go_back)
 
-    def go_back(self):
+    def go_back(self,event=None):
         self.destroy()

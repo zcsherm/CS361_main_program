@@ -43,6 +43,8 @@ class AddUserScreen(tk.Toplevel):
         self._return_button.pack(side='top',  fill='both',  padx=10,  pady=10,  expand=True)
         self.bind('<Alt-r>', self.go_to_main)
         self.bind('<Alt-a>', self.add_user)
+        self.focus_set()
+
     def add_user(self, event=None):
         #response = messagebox.askyesno("Add season", "Would you like to create a starting season?")
         self.response = Pmw.MessageDialog(self._master.root,
@@ -50,6 +52,7 @@ class AddUserScreen(tk.Toplevel):
                                         message_text="Would you like to create a starting season?.",
                                         buttons=('Add Season','Skip for now',),
                                      command = self.season_add)
+        self.response.focus_set()
         hover = Pmw.Balloon(self._master.root)
         hover.bind(self.response.interior(), 'A season lets you record progress over a large series of games')
 
@@ -76,11 +79,4 @@ class AddUserScreen(tk.Toplevel):
             self._master.save_user()
             self._master.launch_home(self)
 
-if __name__ == '__main__':
-    screens = []
 
-    while True:
-        if not screens:
-            screen = AddUserScreen()
-            screens.append(screen)
-            screen._window.mainloop()

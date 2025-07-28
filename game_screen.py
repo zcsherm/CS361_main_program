@@ -9,6 +9,7 @@ class GameScreen(tk.Toplevel):
         self._master = master
         self._window = self
         self.title("Play Ball")
+        self.focus_set()
         self._text_vars = [tk.StringVar() for i in range(15)]
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=4)
@@ -131,7 +132,7 @@ class DisplayScore(tk.Toplevel):
         self._window=self
         self._away_score=away_score
         self._home_score=home_score
-
+        self.focus_set()
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=1)
         frame2 = tk.LabelFrame(self._window, borderwidth=0)  # For the 6 main innings fields
@@ -188,6 +189,7 @@ class DisplayScore(tk.Toplevel):
             self.go_home()
 
     def go_back(self, event=None):
+        self._master.focus_set()
         self.destroy()
 
     def go_home(self,event=None):

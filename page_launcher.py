@@ -31,36 +31,43 @@ class Launcher():
         self._current = login_screen.LoginScreen(master=self)
         if source:
             source.destroy()
+        self._current.focus_force()
 
     def launch_user_screen(self, source= None, data=None):
         self._current = new_user_screen.AddUserScreen(master=self,data=data)
         if source:
             source.destroy()
+        self._current.focus_set()
 
     def launch_new_season(self,source=None,data=None):
         self._current = new_season_screen.AddSeasonScreen(master=self, data=data)
         if source:
             source.destroy()
+        self._current.focus_force()
 
     def launch_home(self, source=None, data=None):
         self._current = home_screen.HomeScreen(master=self,data=data)
         if source:
             source.destroy()
+        self._current.focus_force()
 
     def launch_team(self,source=None,data=None):
         self._current = update_team_screen.TeamScreen(master=self,team=self.user.get_current_team())
         if source:
             source.destroy()
+        self._current.focus_force()
 
     def launch_choose_user(self,source=None):
         self._current = select_user_screen.SelectUser(master=self)
         if source:
             source.destroy()
+        self._current.focus_force()
 
     def launch_select_season(self,source=None):
         self._current = change_season_screen.SelectSeason(master=self)
         if source:
             source.destroy()
+        self._current.focus_force()
 
     def launch_play_game(self,source=None,quick_play=False):
         response = messagebox.askyesno("Choose side", "Are you playing the Home team?")
@@ -70,6 +77,7 @@ class Launcher():
             self._current = game_screen.GameScreen(master=self, player='home',quickplay=quick_play)
         else:
             self._current = game_screen.GameScreen(master=self,player='away',quickplay=quick_play)
+        self._current.focus_force()
 
     def change_season(self,season):
         self.user.change_season(season)

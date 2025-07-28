@@ -7,11 +7,12 @@ class SelectUser(tk.Toplevel):
         self._master = master
         self._window = self
         self.title("Choose a User")
+
         directories =[]
         path = os.getcwd()+'/users'
         for dir in os.listdir(path):
             directories.append(dir)
-
+        self.focus_set()
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
         frame1.grid(row=0, column=0, columnspan=3)
         frame2 = tk.LabelFrame(self._window, borderwidth=0)  # For the player fields
