@@ -1,6 +1,7 @@
 class Player:
     def __init__(self, data):
         self._name = data["name"]
+        self._id = data["id"]
         self._seasons = {}
         self._current_team = data["current team"]
         for season in data["seasons"]:
