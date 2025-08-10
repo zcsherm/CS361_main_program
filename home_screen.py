@@ -1,5 +1,9 @@
 import tkinter as tk
+from tkinter import messagebox
 from pagetext import *
+import communication_utilities as cu
+
+PIPE = 'score_pipe.txt'
 
 class HomeScreen(tk.Toplevel):
     """
@@ -24,10 +28,12 @@ class HomeScreen(tk.Toplevel):
         frame4.grid(row=2, column=0,sticky='w')
         frame5 = tk.LabelFrame(self._window,borderwidth=0)  # For update team button
         frame5.grid(row=3, column=0,sticky='w')
+        self._update_team_button = tk.Button(self._window, text="Show High Scores", command=self.show_high_scores,underline=3)
+        self._update_team_button.grid(row=4, column=0, sticky='w')
         frame6 = tk.LabelFrame(self._window, borderwidth=0)  # play game button
         frame6.grid(row=4, column=1,sticky='s')
         frame7 = tk.LabelFrame(self._window, borderwidth=0)  # for help button
-        frame7.grid(row=4, column=0, stick='w')
+        frame7.grid(row=5, column=0, stick='w')
 
         # Setup the title frame
         label = tk.Label(frame1, text=f"Welcome {self._master.user.get_name()}!\nYour current season is {self._master.user.get_current_season()}")
@@ -52,8 +58,11 @@ class HomeScreen(tk.Toplevel):
         self._update_team_button = tk.Button(frame5, text="Update Team", command=self.update_team,underline=0)
         self._update_team_button.pack(side='left', padx=10,pady=40)
 
+
         # Setup the play button button
         self._play_button = tk.Button(frame6, text="Play Game!", command=self.play_game,underline=0)
+        self._play_button.pack(side='bottom', padx=10, pady=40)
+        self._play_button = tk.Button(frame6, text="Submit Score", command=self.save_season_score,underline=2)
         self._play_button.pack(side='bottom', padx=10, pady=40)
 
         # Setup the help button
@@ -66,6 +75,7 @@ class HomeScreen(tk.Toplevel):
         self.bind('<Alt-u>', self.update_team)
         self.bind('<Alt-p>', self.play_game)
         self.bind('<Alt-h>', self.help)
+        self.bind('<Alt-b>', self.save_season_score)
 
 
     def setup_team_frame(self,frame):
@@ -113,6 +123,55 @@ class HomeScreen(tk.Toplevel):
         """
         Help(self)
 
+    def save_season_score(self):
+        cu.read_write_cycle(PIPE, 'ADD')
+        cu.read_write_cycle(PIPE, self._master.user.get_name())
+        cu.read_write_cycle(PIPE, self._master.user.get_current_season())
+        cu.read_write_cycle(PIPE, str(self._master.user.get_win_loss()[0]))
+        content = cu.read_write_cycle(PIPE, str(self._master.user.get_win_loss()[1]))
+        if content == '200':
+            messagebox.showinfo("Success", "Your season information was successfully added")
+        else:
+            messagebox.showerror("Failure", f"Season score could not be saved. Response was {content}")
+
+    def show_high_scores(self):
+        HighScore(self)
+
+class HighScore(tk.Toplevel):
+    def __init__(self,master):
+        super().__init__()
+        self.title("High Scores")
+        self._window = self
+        self._master = master
+        self.focus_set()
+        frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
+        frame1.grid(row=0, column=0, columnspan=2)
+        frame2 = tk.LabelFrame(self._window, borderwidth=0)  # For the title
+        frame2.grid(row=1, column=0, columnspan=2)
+        frame3 = tk.Button(self, text="Return", command=self.return_to_home)
+        frame3.grid(row=2,column=0)
+
+        label = tk.Label(frame1,text="All time highest season records")
+        label.pack(fill='both', padx=10, pady=5, expand=True)
+
+        cu.read_write_cycle(PIPE, "VIEW")
+        contents = cu.read_write_cycle(PIPE, '10')
+        scores = contents.split('\n')
+        count = 1
+        print(scores)
+        for score in scores:
+            if len(score) == 0:
+                continue
+            print(score)
+            score = score.split(',')
+            print(score[3])
+            label = tk.Label(frame2, text = f"{count}. {score[0]} -- {score[1]} Season -- {score[2]}-{score[3]}")
+            label.pack(fill = 'both', padx=10, pady=5, expand = True)
+            count += 1
+    def return_to_home(self):
+        self._master.focus_set()
+        self.destroy()
+
 class Help(tk.Toplevel):
     """
     The help screen for the home page
@@ -125,6 +184,7 @@ class Help(tk.Toplevel):
         self._window = self
         self._master=master
         self.focus_set()
+
 
         # Setup the frames
         frame1 = tk.LabelFrame(self._window, borderwidth=0)  # For the title

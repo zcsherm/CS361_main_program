@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
-
+import time
+import communication_utilities as cu
+import os
+from PIL import Image
+PIPE = "shuffler.txt"
+PIPE2 = "image_pipe.txt"
 class GameScreen(tk.Toplevel):
     """
     The screen for entering in the results of a single game
@@ -15,11 +20,14 @@ class GameScreen(tk.Toplevel):
         # Setup basic attributes
         super().__init__()
         self.player = player
+        self.shuffle_request()
         self.quickplay=quickplay
         self._master = master
         self._window = self
         self._current_score = (0,0)
         self.title("Play Ball")
+        self.order = self.get_shuffle_answer()
+        self.curr_card = 0
         self.focus_set()
 
         # Setup the frames
@@ -112,7 +120,10 @@ class GameScreen(tk.Toplevel):
         #Setup the finish button and hotkey
         self._finish_game_button = tk.Button(frame5, text="Finish Game",command=self.finish,underline=0)
         self._finish_game_button.grid(row=2,column=1)
+        self._get_next_card_button = tk.Button(frame5, text="Next Card",command=self.show_next_card,underline=0)
+        self._get_next_card_button.grid(row=3,column=1)
         self.bind('<Alt-f>', self.finish)
+        self.bind('<Alt-n>', self.show_next_card)
 
         # Setup the return button and hotkey
         self._return_button = tk.Button(frame6,text='Return',command=self.go_to_main, underline=0)
@@ -162,6 +173,35 @@ class GameScreen(tk.Toplevel):
                 self._master.launch_home(self)
             return
         return
+
+    def shuffle_request(self):
+        with open(PIPE, 'w') as file:
+            file.write('size=15')
+
+    def get_shuffle_answer(self):
+        time.sleep(.2)
+        with open(PIPE, 'r') as file:
+            contents = file.read()
+        print(contents)
+        contents = contents.split(',')
+        print(contents)
+        return contents
+
+    def show_next_card(self):
+        player_name = self._master.user.get_current_team()[int(self.order[self.curr_card])]
+        self.curr_card += 1
+        if self.curr_card >= 15:
+            self.shuffle_request()
+            self.order = self.get_shuffle_answer()
+            self.curr_card = 0
+        cu.read_write_cycle(PIPE2, 'FETCH')
+        path = cu.read_write_cycle(PIPE2, player_name)
+        print(player_name)
+        print(path)
+        if os.path.isfile(path):
+            Image.open(path).show()
+        else:
+            print("CANNOT_GET_IMAGE")
 
 class DisplayScore(tk.Toplevel):
     """
@@ -270,3 +310,4 @@ class DisplayScore(tk.Toplevel):
         else:
             self.destroy()
             self._master._master.launch_home(self._master)
+

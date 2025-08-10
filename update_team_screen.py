@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
+import communication_utilities as cu
+
+PIPE = "player_pipe.txt"
 
 class TeamScreen(tk.Toplevel):
     """
@@ -74,10 +77,22 @@ class TeamScreen(tk.Toplevel):
             
             # If it is different then mark that this player was changed
             if new_name != old_name:
-                new_team.append(new_name)
-                counter += 1
-                txt = f"{counter}-> Player {i}: {old_name} replaced by {new_name}\n"
-                changes_text+= txt
+                cu.read_write_cycle(PIPE, 'ADD')
+                cu.read_write_cycle(PIPE, self._master.user.get_name())
+                cu.read_write_cycle(PIPE, 'player')
+                response = cu.read_write_cycle(PIPE, new_name)
+                if response == '200':
+                    cu.read_write_cycle(PIPE, "REMOVE")
+                    cu.read_write_cycle(PIPE, self._master.user.get_name())
+                    cu.read_write_cycle(PIPE, 'none')
+                    response = cu.read_write_cycle(PIPE, old_name)
+                    new_team.append(new_name)
+                    counter += 1
+                    txt = f"{counter}-> Player {i}: {old_name} replaced by {new_name}\n"
+                    changes_text+= txt
+                else:
+                    messagebox.showerror("Invalid add",f"Player could not be added. {new_name} may be on your team already or another players.")
+                    new_team.append(old_name)
             else:
                 new_team.append(old_name)
 
