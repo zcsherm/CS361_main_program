@@ -73,6 +73,7 @@ class Microservice:
             # strip the whitespace from the clients requested resource, find the resource and write it to the pipe
             if content != PASSED_READ and content != '':
                 content = content.strip()
+                content = content.replace(' ','')
                 file = self.locate_file(content)
                 self.write_to_pipe(file)
 
@@ -95,7 +96,7 @@ class Microservice:
         Get the absolute path to the requested resource.
         :query: The resource to be searched for
         """
-        file_name = query.lower()
+        file_name = query
         if IMAGE_TYPE not in file_name:
             file_name = file_name + IMAGE_TYPE
         file_path = os.path.abspath(IMAGE_DIRECTORY + '/' + file_name)

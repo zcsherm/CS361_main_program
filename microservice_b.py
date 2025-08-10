@@ -199,12 +199,12 @@ class Microservice:
             self.open_master()
             with open(user_file, 'wb') as file:
                 pickle.dump(self.players, file)
+        else:
+            # Load the users data into self.players
+            print(f"Opening the users save file...")
+            with open(user_file, 'rb') as file:
+                self.players = pickle.load(file)
 
-        # Load the users data into self.players
-        print(f"Opening the users save file...")
-        with open(user_file, 'rb') as file:
-            self.players = pickle.load(file)
-        print(self.players['jasper'].get_current_team())
     def save_user_data(self, username):
         """
         Saves the current changes to the users data to their save file
